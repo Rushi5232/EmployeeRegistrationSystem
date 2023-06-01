@@ -1,0 +1,115 @@
+﻿<Window x:Class="EmployeeRegistrationSystem.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModels="clr-namespace:EmployeeRegistrationSystem.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="520" Width="840">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="MinWidth" Value="150"/>
+            <Setter Property="MinHeight" Value="25"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="MinHeight" Value="30"/>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <ViewModels:EmployeeViewModel />
+    </Window.DataContext>
+    <Grid Background="#1f1f1f">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Employee Name:" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding EmployeeName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="10" Background="DarkGray"/>
+
+        <Label Content="Contact Number:" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding ContactNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="10" Background="DarkGray"/>
+
+        <Label Content="Email ID:" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding EmailID, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Margin="10" Background="DarkGray"/>
+
+        <Label Content="Address:" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="10" Background="DarkGray"/>
+
+        <Label Content="Education:" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" Margin="10"/>
+        <ComboBox ItemsSource="{Binding EducationOptions}" SelectedItem="{Binding Education}" Grid.Row="4" Grid.Column="1" Margin="10"/>
+
+        <Label Content="Total Experience:" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding TotalExperience, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Margin="10" Background="DarkGray"/>
+
+        <ListView
+            Background="Transparent"
+            ItemsSource="{Binding Employees}"
+            SelectedItem="{Binding SelectedEmployee}"
+            Foreground="Gray"
+            Grid.Row="6" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollBarVisibility ="Disabled">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Employee Name" DisplayMemberBinding="{Binding EmployeeName}" Width="100"/>
+                    <GridViewColumn Header="Contact Number" DisplayMemberBinding="{Binding ContactNumber}" Width="100"/>
+                    <GridViewColumn Header="Email ID" DisplayMemberBinding="{Binding EmailID}" Width="200"/>
+                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="200"/>
+                    <GridViewColumn Header="Education" DisplayMemberBinding="{Binding Education}" Width="100"/>
+                    <GridViewColumn Header="Total Experience" DisplayMemberBinding="{Binding TotalExperience}" Width="100"/>
+                </GridView>
+            </ListView.View>
+            
+        </ListView>
+
+        <StackPanel 
+            Grid.Row="7" 
+            Grid.Column="0" 
+            Grid.ColumnSpan="2" 
+            Orientation="Horizontal"
+            Margin="10,0"
+            HorizontalAlignment="Right">
+            <Button 
+                Content="Register" 
+                Command="{Binding RegisterCommand}"
+                ToolTipService.ShowOnDisabled="true">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="ToolTip" Value="Please enter all fields to enable Register"/>
+                                <Setter Property="ToolTipService.IsEnabled" Value="True"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button 
+                Content="Modify" 
+                Command="{Binding ModifyCommand}"/>
+            <Button 
+                Content="Delete" 
+                Command="{Binding DeleteCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>
